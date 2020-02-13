@@ -144,6 +144,8 @@ class AppWindow(QWidget):
     def click_pbtn_YTO_PRINTER(self):
         self.select_printer('YTO_PRINTER')
 
+    ##############################################################################################################################
+
     def click_start(self):
         if not self._path_lineEdit.text():
             self.set_progress_text('[!!] Please, Select Directory which you print')
@@ -157,7 +159,7 @@ class AppWindow(QWidget):
         self.set_progress_text('[+] Start Printer to be printing')
 
         try:
-            print_png_list(self._pngList, self._path_lineEdit.text())
+            print_png_list(self._pngList, self._path_lineEdit.text(), self._control_lineEdit.text())
 
         except:
             self.set_progress_text('[!!] Error Occurred\n' + show_brief_except(True))

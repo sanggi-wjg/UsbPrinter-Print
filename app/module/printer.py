@@ -15,19 +15,17 @@ http://timgolden.me.uk/pywin32-docs/win32print.html
 """
 
 
-class LabelSize:
+def get_label_size(key):
     """ Size in real world """
-    SF_WIDTH = 720
-    SF_HEIGHT = 1500
+    size = {
+        # Width, Height
+        'SF_PRINTER' : (720, 1500),
+        'ICB_PRINTER': (720, 1500),
+        'IN_PRINTER' : (200, 100),
+        'OUT_PRINTER': (700, 1000),
+    }
 
-    ICB_WIDTH = 100
-    ICB_HEIGHT = 200
-
-    IN_WIDTH = 200
-    IN_HEIGHT = 100
-
-    OUT_WIDTH = 1000
-    OUT_HEIGHT = 1000
+    return size[key]
 
 
 def get_printer_list():
@@ -74,7 +72,7 @@ def open_url_window(url = 'http://www.google.com', programName = 'chrome'):
 
 ##############################################################################################################################
 
-def print_png_list(pngList, dirPath):
+def print_png_list(pngList, dirPath, printerName):
     hDC = win32ui.CreateDC()
 
     for filename in pngList:
@@ -91,8 +89,8 @@ def print_png_list(pngList, dirPath):
             hDC.StartPage()
 
             dib = ImageWin.Dib(bmp)
-            # dib.draw(hDC.GetHandleOutput(), (0, 0, printer_size[0] - 100, printer_size[1]))
-            dib.draw(hDC.GetHandleOutput(), (0, 0, LabelSize.SF_WIDTH, LabelSize.SF_HEIGHT))
+            labelSize = get_label_size(printerName)
+            dib.draw(hDC.GetHandleOutput(), (0, 0, labelSize[0], labelSize[1]))
             hDC.EndPage()
 
             time.sleep(1)
